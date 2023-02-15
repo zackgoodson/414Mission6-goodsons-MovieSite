@@ -11,7 +11,7 @@ namespace Movies.Models
         // Constructor
         public MovieAppContext (DbContextOptions<MovieAppContext> options) : base(options)
         {
-            //leaving it blank for rn
+            //leaving this blank for now
         }
 
         public DbSet<MovieSubmissionModel> Responses { get; set; }
@@ -19,6 +19,7 @@ namespace Movies.Models
         protected override void OnModelCreating(ModelBuilder mb)
         {
             mb.Entity<MovieSubmissionModel>().HasData(
+                // Seeds starting data into the database
                     new MovieSubmissionModel
                     {
                         MovieId = 1,

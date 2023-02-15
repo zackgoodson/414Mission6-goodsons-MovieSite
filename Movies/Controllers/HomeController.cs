@@ -24,16 +24,18 @@ namespace Movies.Controllers
         {
             return View();
         }
-
+        //Returns Podcast page view
         public IActionResult Podcast()
         {
             return View();
         }
+        //Returns Movie Form View
         [HttpGet]
         public IActionResult MovieForm()
         {
             return View();
         }
+        // For the form submission, passes the form data to the model
         [HttpPost]
         public IActionResult MovieForm(MovieSubmissionModel ms)
         {
