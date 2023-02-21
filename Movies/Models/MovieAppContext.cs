@@ -22,6 +22,7 @@ namespace Movies.Models
                 // Seeds starting data into the database
                     new MovieSubmissionModel
                     {
+                        
                         MovieId = 1,
                         Rating = "PG",
                         Edited = false,

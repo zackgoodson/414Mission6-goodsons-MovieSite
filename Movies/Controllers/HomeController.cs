@@ -11,12 +11,11 @@ namespace Movies.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+
         private MovieAppContext _movieContext { get; set; }
 
-        public HomeController(ILogger<HomeController> logger, MovieAppContext movieSub)
+        public HomeController(MovieAppContext movieSub)
         {
-            _logger = logger;
             _movieContext = movieSub;
         }
 
@@ -42,13 +41,11 @@ namespace Movies.Controllers
             _movieContext.Add(ms);
             _movieContext.SaveChanges();
             return View("Confirmation", ms);
-
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult MovieList ()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var movies = _movieContext.Responses.ToList();
+            return View(movies);
         }
     }
 }
