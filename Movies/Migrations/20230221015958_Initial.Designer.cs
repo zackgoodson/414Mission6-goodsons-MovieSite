@@ -8,7 +8,7 @@ using Movies.Models;
 namespace Movies.Migrations
 {
     [DbContext(typeof(MovieAppContext))]
-    [Migration("20230214022826_Initial")]
+    [Migration("20230221015958_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,6 +22,14 @@ namespace Movies.Migrations
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Director")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Edited")
                         .HasColumnType("INTEGER");
@@ -37,6 +45,13 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("MovieId");
 
                     b.ToTable("Responses");
@@ -45,26 +60,38 @@ namespace Movies.Migrations
                         new
                         {
                             MovieId = 1,
+                            Category = "Sci-Fi",
+                            Director = "George Lucas",
                             Edited = false,
                             Lent = "No",
-                            Notes = "Star Wars: Attack of the Clones",
-                            Rating = "PG"
+                            Notes = "",
+                            Rating = "PG",
+                            Title = "Star Wars: Attack of the Clones",
+                            Year = 2002
                         },
                         new
                         {
                             MovieId = 2,
+                            Category = "Sci-Fi",
+                            Director = "Taika Watiti",
                             Edited = false,
                             Lent = "No",
-                            Notes = "Jojo Rabbit",
-                            Rating = "PG-13"
+                            Notes = "",
+                            Rating = "PG-13",
+                            Title = "Jojo Rabbit",
+                            Year = 2019
                         },
                         new
                         {
                             MovieId = 3,
+                            Category = "Sci-Fi",
+                            Director = "Christopher Nolan",
                             Edited = false,
                             Lent = "No",
-                            Notes = "Interstellar",
-                            Rating = "PG-13"
+                            Notes = "",
+                            Rating = "PG-13",
+                            Title = "Interstellar",
+                            Year = 2011
                         });
                 });
 #pragma warning restore 612, 618
