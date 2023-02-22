@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Movies.Models;
 using System;
@@ -32,20 +33,70 @@ namespace Movies.Controllers
         [HttpGet]
         public IActionResult MovieForm()
         {
+            ViewBag.Categories = _movieContext.Categories.ToList();
             return View();
         }
         // For the form submission, passes the form data to the model
         [HttpPost]
         public IActionResult MovieForm(MovieSubmissionModel ms)
         {
-            _movieContext.Add(ms);
-            _movieContext.SaveChanges();
-            return View("Confirmation", ms);
+            if (ModelState.IsValid)
+            {
+                _movieContext.Add(ms);
+                _movieContext.SaveChanges();
+                return View("Confirmation", ms);
+            }
+            else
+            {
+                ViewBag.Categories = _movieContext.Categories.ToList();
+                return View(ms);
+            }
         }
         public IActionResult MovieList ()
         {
-            var movies = _movieContext.Responses.ToList();
+            var movies = _movieContext.Responses
+                .Include(x => x.Category)
+                .ToList();
             return View(movies);
+        }
+        [HttpGet]
+        public IActionResult Edit (int MovieId)
+        {
+            ViewBag.Categories = _movieContext.Categories.ToList();
+            var movie = _movieContext.Responses.Single(x => x.MovieId == MovieId);
+
+            return View("MovieForm", movie);
+        }
+        [HttpPost]
+        public IActionResult Edit (MovieSubmissionModel update)
+        {
+            if (ModelState.IsValid)
+            {
+                _movieContext.Update(update);
+                _movieContext.SaveChanges();
+
+                return RedirectToAction("MovieList");
+            }
+            else
+            {
+                ViewBag.Categories = _movieContext.Categories.ToList();
+                return View("MovieForm", update);
+            }
+        }
+        [HttpGet]
+        public IActionResult Delete (int MovieId)
+        {
+            var movie = _movieContext.Responses.Single(x => x.MovieId == MovieId);
+
+            return View(movie);
+        }
+        [HttpPost]
+        public IActionResult Delete (MovieSubmissionModel mo)
+        {
+            _movieContext.Responses.Remove(mo);
+            _movieContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
         }
     }
 }
